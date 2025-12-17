@@ -15,6 +15,7 @@ struct TextField_ViewModifier: ViewModifier {
         content
             .padding()
             .background(Color(uiColor: .systemGray6), in: RoundedRectangle(cornerRadius: cornerRadius))
+            .textInputAutocapitalization(.never)
         
     }
 }

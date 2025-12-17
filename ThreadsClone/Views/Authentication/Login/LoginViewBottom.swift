@@ -17,10 +17,7 @@ struct LoginViewBottom: View {
                 //Login
             } label: {
                 Text("Login")
-                    .padding()
-                    .foregroundStyle(Color(uiColor: .systemBackground))
-                    .frame(maxWidth: .infinity)
-                    .background(.loginBtn, in: RoundedRectangle(cornerRadius: 10))
+                    .authButtonStyle()
             }
             
         }

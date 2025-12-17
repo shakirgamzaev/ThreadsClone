@@ -15,9 +15,6 @@ struct ContainerView: View {
         @Bindable var loginVM = loginVM
         
         VStack(spacing: 18) {
-            
-            
-            
             LogoIconView(width: size.width * 0.27)
             
             VStack {
@@ -35,19 +32,7 @@ struct ContainerView: View {
         }
         .frame(maxHeight: .infinity)
         .safeAreaInset(edge: .bottom, content: {
-            VStack {
-                Rectangle()
-                    .foregroundStyle(Color(uiColor: .systemGray4))
-                    .frame(height: 2)
-                
-                NavigationLink {
-                    Text("Sign up view")
-                } label: {
-                    Text("Don't have an account? Sign up")
-                        .foregroundStyle(.black)
-                }
-
-            }
+            LoginSafeAreaBottomView()
         })
         .padding()
     }
@@ -66,6 +51,6 @@ struct ContainerView: View {
         }, action: { newValue in
             size = newValue
         })
-        .border(.red, width: 2)
+        
     }
 }
