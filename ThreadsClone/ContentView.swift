@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     //Controls the authentication state. Later change it to a view model that will control whether a user is logged in or not. 
-    @State private var isLoggedIn: Bool = false
+    @State private var isLoggedIn: Bool = true
     
     var body: some View {
         ZStack {

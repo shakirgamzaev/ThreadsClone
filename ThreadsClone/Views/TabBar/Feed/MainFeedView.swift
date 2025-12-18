@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MainFeedView: View {
     @State private var containerWidth: CGFloat = 0
+    @State private var didRefresh: Bool = false
     
     var body: some View {
         ScrollView {
@@ -18,9 +19,14 @@ struct MainFeedView: View {
                 }
             }
         }
+        .refreshable {
+            didRefresh = true
+            try? await Task.sleep(for: .seconds(0.1))
+            didRefresh = false
+        }
         .scrollIndicators(.hidden)
         .safeAreaInset(edge: .top, content: {
-            FeedViewTopBar()
+            FeedViewTopBar(didRefresh: didRefresh)
         })
         .mask {
             Rectangle()
