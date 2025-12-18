@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LoginViewBottom: View {
+    @Environment(\.isLoggedIn) private var isLoggedIn
+    
     var body: some View {
         VStack(alignment: .trailing, spacing: 16) {
             Text("Forgot Password?")
@@ -15,6 +17,9 @@ struct LoginViewBottom: View {
             
             Button {
                 //Login
+                withAnimation(.smooth(duration: 0.2)) {
+                    isLoggedIn.wrappedValue = true
+                }
             } label: {
                 Text("Login")
                     .authButtonStyle()

@@ -8,8 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    //Controls the authentication state. Later change it to a view model that will control whether a user is logged in or not. 
+    @State private var isLoggedIn: Bool = false
+    
     var body: some View {
-        MainLoginView()
+        ZStack {
+            if isLoggedIn {
+                MainTabView()
+                    .transition(.move(edge: .trailing))
+                    .zIndex(1)
+            }
+            else {
+               MainLoginView()
+                    .transition(.move(edge: .leading))
+                    .zIndex(0)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .environment(\.isLoggedIn, $isLoggedIn)
     }
 }
 

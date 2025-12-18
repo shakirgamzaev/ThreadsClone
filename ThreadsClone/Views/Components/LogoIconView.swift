@@ -9,8 +9,10 @@ import SwiftUI
 
 struct LogoIconView: View {
     let width: CGFloat
+    @Environment(\.colorScheme) private var colorScheme
+    
     var body: some View {
-        Image(.logo)
+        Image(colorScheme == .dark ? .logoDark : .logoLight)
             .resizable()
             .scaledToFit()
             .frame(width: width, height: width)

@@ -18,7 +18,7 @@ struct LoginSafeAreaBottomView: View {
                 MainSignUpView()
             } label: {
                 Text("Don't have an account? Sign up")
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.loginBtn)
             }
 
         }
