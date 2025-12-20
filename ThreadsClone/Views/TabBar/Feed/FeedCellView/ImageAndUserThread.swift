@@ -15,7 +15,7 @@ struct ImageAndUserThread: View {
             UserImageView(
                 dataSource: .assetCatalog("userImg"),
                 widthContainer: containerWidth,
-                percentOfContainerWidth: 0.12
+                percentOfContainerWidth: 0.11
             )
             
             VStack(alignment: .leading, spacing: 6) {
