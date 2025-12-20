@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///NOTE, percentOfContainerWidth must be a number between 0 and 1, both inclusive: [0,1] interval
 struct UserImageView: View {
     let dataSource: ImageDataSource
     let widthContainer: CGFloat

@@ -20,7 +20,7 @@ struct MainTabView: View {
             }
             Tab("", systemImage: "magnifyingglass", value: 1) {
                 NavigationStack {
-                    Text("Explore")
+                    MainSearchUsersView()
                 }
             }
             Tab("", systemImage: "plus", value: 2) {
