@@ -11,18 +11,20 @@ struct MainLoginView: View {
     @State private var loginVM = LoginViewModel()
     
     var body: some View {
-        GeometryReader { geo in
-            let size = geo.size
-            ZStack {
-                ContainerView(size: size)
-                
+        NavigationStack {
+            GeometryReader { geo in
+                let size = geo.size
+                ZStack {
+                    ContainerView(size: size)
+                    
+                }
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                )
             }
-            .frame(
-                maxWidth: .infinity,
-                maxHeight: .infinity,
-            )
+            .environment(loginVM)
         }
-        .environment(loginVM)
     }
 }
 

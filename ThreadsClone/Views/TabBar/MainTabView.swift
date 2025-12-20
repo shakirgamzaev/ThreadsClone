@@ -14,19 +14,36 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $selection) {
             Tab("", systemImage: "house", value: 0) {
-                MainFeedView()
+                NavigationStack {
+                    MainFeedView()
+                }
             }
             Tab("", systemImage: "magnifyingglass", value: 1) {
-                Text("Explore")
+                NavigationStack {
+                    Text("Explore")
+                }
             }
             Tab("", systemImage: "plus", value: 2) {
-                Text("Upload Thread")
+                NavigationStack {
+                    Text("Upload Thread")
+                }
             }
             Tab("", systemImage: "suit.heart", value: 3) {
-                Text("Activity")
+                NavigationStack {
+                    Text("Activity")
+                }
             }
             Tab("", systemImage: "person", value: 4) {
-                Text("Profile")
+                NavigationStack {
+                    Text("Profile")
+                }
+            }
+        }
+        .onChange(of: selection) { oldValue, newValue in
+            if selection == 4 {
+                withAnimation(.smooth(duration: 0.18)) {
+                    isLoggedIn.wrappedValue = false
+                }
             }
         }
         
