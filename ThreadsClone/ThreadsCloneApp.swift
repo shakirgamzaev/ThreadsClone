@@ -11,9 +11,7 @@ import SwiftUI
 struct ThreadsCloneApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                ContentView()
-            }
+            ContentView()
         }
     }
 }
