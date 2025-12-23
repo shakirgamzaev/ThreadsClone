@@ -12,24 +12,27 @@ struct UserCellSearchView: View {
     
     var body: some View {
         HStack {
-            HStack {
-                UserImageView(
-                    dataSource: .assetCatalog("userImg"),
-                    widthContainer: containerWidth,
-                    percentOfContainerWidth: 0.1
-                )
-                
-                VStack(alignment: .leading) {
-                    Text("maxverstappen1")
-                        .bold()
-                    Text("Max Verstappen")
+            NavigationLink {
+                UserProfile()
+            } label: {
+                HStack {
+                    UserImageView(
+                        dataSource: .assetCatalog("userImg"),
+                        widthContainer: containerWidth,
+                        percentOfContainerWidth: 0.1
+                    )
+                    
+                    VStack(alignment: .leading) {
+                        Text("maxverstappen1")
+                            .bold()
+                        Text("Max Verstappen")
+                    }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+                .foregroundStyle(.loginBtn)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
-            .onTapGesture {
-                print("User tapped")
-            }
+
             
             
             Button {
