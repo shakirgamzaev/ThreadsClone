@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginViewBottom: View {
     @Environment(\.isLoggedIn) private var isLoggedIn
+    @Environment(LoginViewModel.self) private var loginVM
     
     var body: some View {
         VStack(alignment: .trailing, spacing: 16) {
@@ -17,8 +18,11 @@ struct LoginViewBottom: View {
             
             Button {
                 //Login
-                withAnimation(.smooth(duration: 0.2)) {
-                    isLoggedIn.wrappedValue = true
+//                withAnimation(.smooth(duration: 0.2)) {
+//                    isLoggedIn.wrappedValue = true
+//                }
+                Task {
+                    await loginVM.login()
                 }
             } label: {
                 Text("Login")
@@ -33,4 +37,5 @@ struct LoginViewBottom: View {
     NavigationStack {
         LoginViewBottom()
     }
+    .environment(LoginViewModel())
 }

@@ -16,4 +16,16 @@ final class SignUpViewModel {
     var fullName: String = ""
     var userName: String = ""
     
+    
+    func signUp() async {
+        do {
+            try await NetworkingManager.shared.signUp(email: email, password: password, fullName: fullName, userName: userName)
+        }
+        catch let error as ApiError {
+            print(error.message)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
 }

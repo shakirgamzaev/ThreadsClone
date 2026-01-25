@@ -14,4 +14,18 @@ class LoginViewModel {
     var email: String = ""
     var password: String = ""
     
+    
+    func login(authVM: MainAuthViewModel) async {
+        do {
+            let authResponse = try await NetworkingManager.shared.login(email: email, password: password)
+            print(authResponse)
+        }
+        catch let error as ApiError {
+            print(error.message)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
 }

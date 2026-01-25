@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct EditProfileTopBar: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         HStack {
             Button {
                 //Cancel
+                dismiss()
             } label: {
                 Text("Cancel")
             }
@@ -32,7 +35,8 @@ struct EditProfileTopBar: View {
 
         }
         .foregroundStyle(.loginBtn)
-        .padding()
+        .padding(20)
+        .padding(.vertical, 2)
         .background(Color(uiColor: .systemBackground))
     }
 }

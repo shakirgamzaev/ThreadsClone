@@ -20,6 +20,9 @@ struct MainSignUpView: View {
                 
                 Button {
                     //Sign up
+                    Task {
+                        await signUpVM.signUp()
+                    }
                 } label: {
                     Text("Sign up")
                         .authButtonStyle()
