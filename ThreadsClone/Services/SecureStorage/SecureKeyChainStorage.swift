@@ -16,12 +16,15 @@ final class SecureKeyChainStorage {
     private let service = "com.Shakir.ThreadsClone"
     private let account = "jwt_token"
     
+    static let shared = SecureKeyChainStorage()
+    private init() {}
+    
     private func writeTokenToKeyChain(token: String) throws {
         guard let tokenData = token.data(using: .utf8) else {
             print("❌ Failed to convert token to Data")
             return
         }
-        var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                                     kSecAttrService as String: service,
                                     kSecAttrAccount as String: account,
                                     kSecValueData as String: tokenData]
@@ -52,11 +55,45 @@ final class SecureKeyChainStorage {
                 print("✅ Token retrieved from Keychain (decrypted)")
                 return token  // ← Plain text JWT token
             }
+            else {
+                return nil
+            }
         }
         else {
             let message = SecCopyErrorMessageString(status, nil) as String? ?? "error retrieving jwt token"
             throw KeyChainError(message: message)
         }
-        return nil
+    }
+    
+    
+    private func deleteTokenFromKeyChain() throws {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account
+        ]
+        
+        let status = SecItemDelete(query as CFDictionary)
+        
+        if status == errSecSuccess {
+            print("✅ Token deleted from Keychain")
+        }
+        else {
+            throw KeyChainError(message: "error deleting jwt token")
+        }
+    }
+    
+    
+    
+    func saveToken(token: String) throws {
+        try writeTokenToKeyChain(token: token)
+    }
+    
+    func getToken() throws -> String? {
+        return try getJWTToken()
+    }
+    
+    func deleteToken() throws {
+        try deleteTokenFromKeyChain()
     }
 }

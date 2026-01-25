@@ -10,7 +10,6 @@ import SwiftUI
 struct MainEditProfileView: View {
     @State private var editprofileVM = EditProfileVM()
    
-    
     var body: some View {
         GeometryReader { geo in
             VStack {

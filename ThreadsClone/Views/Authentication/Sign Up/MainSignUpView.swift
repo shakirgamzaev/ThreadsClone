@@ -10,7 +10,7 @@ import SwiftUI
 struct MainSignUpView: View {
     @State private var width: CGFloat = 0
     @State private var signUpVM = SignUpViewModel()
-    
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
         VStack {
@@ -21,7 +21,7 @@ struct MainSignUpView: View {
                 Button {
                     //Sign up
                     Task {
-                        await signUpVM.signUp()
+                        await signUpVM.signUp(authVM: mainAuthVM)
                     }
                 } label: {
                     Text("Sign up")
@@ -48,4 +48,5 @@ struct MainSignUpView: View {
 
 #Preview {
     MainSignUpView()
+        .environment(MainAuthViewModel())
 }

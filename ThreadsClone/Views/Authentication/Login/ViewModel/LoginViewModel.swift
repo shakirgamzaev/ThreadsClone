@@ -18,13 +18,16 @@ class LoginViewModel {
     func login(authVM: MainAuthViewModel) async {
         do {
             let authResponse = try await NetworkingManager.shared.login(email: email, password: password)
-            print(authResponse)
+            try authVM.keyChainService.saveToken(token: authResponse.jwtToken)
+            authVM.isLoggedIn = true
         }
         catch let error as ApiError {
             print(error.message)
+            authVM.isLoggedIn = false
         }
         catch {
             print(error.localizedDescription)
+            authVM.isLoggedIn = false
         }
     }
     

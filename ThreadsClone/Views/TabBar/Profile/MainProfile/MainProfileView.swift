@@ -22,6 +22,6 @@ struct MainProfileView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(MainAuthVMPreview())) {
     MainProfileView()
 }

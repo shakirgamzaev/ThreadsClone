@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @State private var selection: Int = 0
-    @Environment(\.isLoggedIn) private var isLoggedIn
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
     @State private var showUploadView = false
     
     var body: some View {
@@ -48,7 +48,7 @@ struct MainTabView: View {
         .onChange(of: selection) { oldValue, newValue in
 //            if selection == 4 {
 //                withAnimation(.smooth(duration: 0.18)) {
-//                    isLoggedIn.wrappedValue = false
+//                    mainAuthVM.isLoggedIn = false
 //                }
 //            }
             if selection == 2 {

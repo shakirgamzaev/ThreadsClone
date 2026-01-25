@@ -11,6 +11,8 @@ struct EditProfile_EditSection: View {
     @Environment(EditProfileVM.self) private var editProfileViewModel
     let width: CGFloat
     
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
+    
     var body: some View {
         @Bindable var editProfileVM = editProfileViewModel
         VStack {
@@ -44,9 +46,20 @@ struct EditProfile_EditSection: View {
             
             HStack {
                 Text("Private profile")
-                Toggle("private", isOn: $editProfileVM.isPrivateProfile)
+                Toggle("", isOn: $editProfileVM.isPrivateProfile)
             }
             .padding(.vertical, 5)
+            
+            Button {
+                mainAuthVM.logout()
+            } label: {
+                Text("LogOut")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.loginBtn, in: RoundedRectangle(cornerRadius: 8))
+                    .foregroundStyle(Color(uiColor: .systemBackground))
+            }
+            .safeAreaPadding(.top, 20)
             
         }
     }
@@ -55,4 +68,6 @@ struct EditProfile_EditSection: View {
 #Preview {
     EditProfile_EditSection(width: 404)
         .environment(EditProfileVM())
+        .environment(MainAuthViewModel())
+        .padding()
 }

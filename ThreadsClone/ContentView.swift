@@ -8,29 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
-    //Controls the authentication state. Later change it to a view model that will control whether a user is logged in or not. 
-    @State private var isLoggedIn: Bool = false
+    //Controls the authentication state. Later change it to a view model that will control whether a user is logged in or not.
+    @State private var mainAuthVM = MainAuthViewModel()
     
     var body: some View {
         ZStack {
-            if isLoggedIn {
-                MainTabView()
-                    .transition(.move(edge: .trailing))
-                    .zIndex(1)
+            if mainAuthVM.isValidatingUserSession {
+                ValidatingUserView()
             }
             else {
-               MainLoginView()
-                    .transition(.move(edge: .leading))
-                    .zIndex(0)
+                if mainAuthVM.isLoggedIn {
+                    MainTabView()
+                        .transition(.move(edge: .trailing))
+                        .zIndex(1)
+                }
+                else {
+                   MainLoginView()
+                        .transition(.move(edge: .leading))
+                        .zIndex(0)
+                }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .environment(\.isLoggedIn, $isLoggedIn)
+        .environment(mainAuthVM)
     }
 }
 
 #Preview {
     NavigationStack {
         ContentView()
+            
     }
 }

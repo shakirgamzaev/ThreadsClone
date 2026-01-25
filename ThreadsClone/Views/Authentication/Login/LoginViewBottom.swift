@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginViewBottom: View {
     @Environment(\.isLoggedIn) private var isLoggedIn
     @Environment(LoginViewModel.self) private var loginVM
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
         VStack(alignment: .trailing, spacing: 16) {
@@ -22,7 +23,7 @@ struct LoginViewBottom: View {
 //                    isLoggedIn.wrappedValue = true
 //                }
                 Task {
-                    await loginVM.login()
+                    await loginVM.login(authVM: mainAuthVM)
                 }
             } label: {
                 Text("Login")

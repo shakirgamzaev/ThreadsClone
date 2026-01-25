@@ -17,9 +17,11 @@ final class SignUpViewModel {
     var userName: String = ""
     
     
-    func signUp() async {
+    func signUp(authVM: MainAuthViewModel) async {
         do {
-            try await NetworkingManager.shared.signUp(email: email, password: password, fullName: fullName, userName: userName)
+            let authResponse = try await NetworkingManager.shared.signUp(email: email, password: password, fullName: fullName, userName: userName)
+            try authVM.keyChainService.saveToken(token: authResponse.jwtToken)
+            authVM.isLoggedIn = true
         }
         catch let error as ApiError {
             print(error.message)

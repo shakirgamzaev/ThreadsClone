@@ -28,8 +28,9 @@ struct MainLoginView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(MainAuthVMPreview())) {
     NavigationStack {
         MainLoginView()
+            
     }
 }

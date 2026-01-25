@@ -63,7 +63,6 @@ final class NetworkingManager {
             throw apiError
         }
         let authResponse = try decoder.decode(AuthResponse.self, from: data)
-        print(authResponse) //TODO: later change this to actually saving the User in VieModel, and JWTTOken to userDefaults.
         return authResponse
     }
     
