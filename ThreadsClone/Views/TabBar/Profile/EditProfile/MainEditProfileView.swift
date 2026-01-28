@@ -13,7 +13,6 @@ struct MainEditProfileView: View {
     var body: some View {
         GeometryReader { geo in
             VStack {
-                //The actual edit profile
                 EditProfileTopBar()
                 
                 Spacer()
@@ -36,7 +35,7 @@ struct MainEditProfileView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(MainAuthVMPreview())) {
     NavigationStack {
         MainEditProfileView()
     }

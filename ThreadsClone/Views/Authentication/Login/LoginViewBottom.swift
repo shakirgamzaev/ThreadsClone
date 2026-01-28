@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LoginViewBottom: View {
-    @Environment(\.isLoggedIn) private var isLoggedIn
     @Environment(LoginViewModel.self) private var loginVM
     @Environment(MainAuthViewModel.self) private var mainAuthVM
     
@@ -18,10 +17,6 @@ struct LoginViewBottom: View {
                 .bold()
             
             Button {
-                //Login
-//                withAnimation(.smooth(duration: 0.2)) {
-//                    isLoggedIn.wrappedValue = true
-//                }
                 Task {
                     await loginVM.login(authVM: mainAuthVM)
                 }
@@ -29,12 +24,20 @@ struct LoginViewBottom: View {
                 Text("Login")
                     .authButtonStyle()
             }
+            .disabled(mainAuthVM.isCheckingAuth)
+            .overlay {
+                if mainAuthVM.isCheckingAuth {
+                    ProgressView()
+                }
+            }
             
+            Text(loginVM.error)
+                .foregroundStyle(.red)
         }
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(MainAuthVMPreview())) {
     NavigationStack {
         LoginViewBottom()
     }

@@ -15,6 +15,8 @@ final class MainAuthViewModel {
     var isLoggedIn: Bool = false
     var mainUser: MainUser? = nil
     var isValidatingUserSession = true
+    var isCheckingAuth = false
+    var jwtToken: String = ""
     
     private let networkManager = NetworkingManager.shared
     let keyChainService = SecureKeyChainStorage.shared
@@ -27,13 +29,20 @@ final class MainAuthViewModel {
     
     
     func logout() {
+        //whatever happens, if logout is called, jwtToken must be deleted
+        defer{ jwtToken = "" }
+        
         do {
             try keyChainService.deleteToken()
-            isLoggedIn = false
+            withAnimation(.smooth(duration: 0.2)) {
+                isLoggedIn = false
+            }
         }
         catch {
             print(error.localizedDescription)
-            isLoggedIn = false
+            withAnimation(.smooth(duration: 0.2)) {
+                isLoggedIn = false
+            }
         }
     }
     

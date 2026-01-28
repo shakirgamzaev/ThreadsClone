@@ -10,36 +10,53 @@ import SwiftUI
 struct MainFeedView: View {
     @State private var containerWidth: CGFloat = 0
     @State private var didRefresh: Bool = false
+    @State private var mainFeedVM = MainFeedViewModel()
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(0..<100) { _ in
-                    MainFeedCellView(containerWidth: containerWidth)
+        Group {
+            if mainFeedVM.isFetchingThreads {
+                VStack {
+                    ProgressView()
+                        .scaleEffect(2)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.thickMaterial)
+            }
+            else {
+                ScrollView {
+                    LazyVStack {
+                        ForEach(mainFeedVM.threads) { _ in
+                            MainFeedCellView(containerWidth: containerWidth)
+                        }
+                    }
+                }
+                .refreshable {
+                    didRefresh = true
+                    try? await Task.sleep(for: .seconds(0.1))
+                    didRefresh = false
+                }
+                .scrollIndicators(.hidden)
+                .safeAreaInset(edge: .top, content: {
+                    FeedViewTopBar(didRefresh: didRefresh)
+                })
+                .mask {
+                    Rectangle()
+                        .ignoresSafeArea(edges: [.bottom, .top])
+                }
+                .onGeometryChange(for: CGFloat.self, of: { geo in
+                    geo.size.width
+                }, action: { newValue in
+                    containerWidth = newValue
+                })
             }
         }
-        .refreshable {
-            didRefresh = true
-            try? await Task.sleep(for: .seconds(0.1))
-            didRefresh = false
+        .task {
+            await mainFeedVM.fetchThreads(jwtToken: mainAuthVM.jwtToken)
         }
-        .scrollIndicators(.hidden)
-        .safeAreaInset(edge: .top, content: {
-            FeedViewTopBar(didRefresh: didRefresh)
-        })
-        .mask {
-            Rectangle()
-                .ignoresSafeArea(edges: [.bottom, .top])
-        }
-        .onGeometryChange(for: CGFloat.self, of: { geo in
-            geo.size.width
-        }, action: { newValue in
-            containerWidth = newValue
-        })
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(MainAuthVMPreview())) {
     MainFeedView()
 }

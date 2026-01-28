@@ -1,0 +1,36 @@
+//
+//  MainFeedViewModel.swift
+//  ThreadsClone
+//
+//  Created by shakir Gamzaev on 27/1/26.
+//
+
+import Foundation
+
+///view model class that holds a list of current threads belonging to a particular user.
+///
+///Talks to a network manager to fetch threads from the backend and display them to the user.
+@Observable
+final class MainFeedViewModel {
+    private let networkManager = NetworkingManager.shared
+    var threads: [Thread] = []
+    var isFetchingThreads = false
+    
+    func fetchThreads(jwtToken: String) async {
+        isFetchingThreads = true
+        defer{ isFetchingThreads = false }
+        
+        do {
+            self.threads = try await networkManager.fetchThreads(jwtToken: jwtToken)
+        }
+        
+        catch let error {
+            if let apiError = error as? ApiError {
+                print("Error fetching threads: \(apiError)")
+            }
+            else {
+                print(error.localizedDescription)
+            }
+        }
+    }
+}

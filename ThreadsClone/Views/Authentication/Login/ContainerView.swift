@@ -53,4 +53,5 @@ struct ContainerView: View {
         })
         
     }
+    .environment(MainAuthViewModel())
 }

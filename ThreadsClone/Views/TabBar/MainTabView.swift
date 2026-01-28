@@ -46,11 +46,6 @@ struct MainTabView: View {
             MainUploadTweet()
         })
         .onChange(of: selection) { oldValue, newValue in
-//            if selection == 4 {
-//                withAnimation(.smooth(duration: 0.18)) {
-//                    mainAuthVM.isLoggedIn = false
-//                }
-//            }
             if selection == 2 {
                 showUploadView = true
             }
@@ -60,6 +55,6 @@ struct MainTabView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(MainAuthVMPreview())) {
     MainTabView()
 }

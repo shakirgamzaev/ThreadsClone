@@ -84,3 +84,24 @@ final class NetworkingManager {
     }
     
 }
+
+
+extension NetworkingManager {
+    
+    func fetchThreads(jwtToken: String) async throws -> [Thread] {
+        var request = URLRequest(url: URL(string: "http://localhost:8080/api/threads")!)
+        request.addValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        let (data, response) = try await URLSession.shared.data(for: request)
+        let httpResponse = response as! HTTPURLResponse
+        
+        guard httpResponse.statusCode == 200 else {
+            let apiError = try decoder.decode(ApiError.self, from: data)
+            throw apiError
+        }
+    
+        let threads = try decoder.decode([Thread].self, from: data)
+        return threads
+    }
+    
+}
