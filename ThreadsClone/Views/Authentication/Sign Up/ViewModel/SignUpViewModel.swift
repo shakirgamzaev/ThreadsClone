@@ -25,6 +25,7 @@ final class SignUpViewModel {
             let authResponse = try await NetworkingManager.shared.signUp(email: email, password: password, fullName: fullName, userName: userName)
             try authVM.keyChainService.saveToken(token: authResponse.jwtToken)
             authVM.jwtToken = authResponse.jwtToken
+            authVM.mainUser = authResponse.user //setting the current logged in user app wide
             
             withAnimation(.smooth(duration: 0.2)) {
                 authVM.isLoggedIn = true

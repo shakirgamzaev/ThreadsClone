@@ -9,6 +9,8 @@ import SwiftUI
 
 struct UploadTweetTopBar: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
+    let uploadThreadVM: UploadThreadViewModel
     let tweetText: String
     
     var body: some View {
@@ -29,7 +31,13 @@ struct UploadTweetTopBar: View {
             Spacer()
             
             Button {
-                
+                //TODO: upload new thread
+                Task {
+                    await uploadThreadVM.uploadThread(
+                        jwtToken: mainAuthVM.jwtToken,
+                        mainUser: mainAuthVM.mainUser ?? mainUserPreviewModel
+                    )
+                }
             } label: {
                 Text("Post")
                     .fontWeight(.semibold)
@@ -42,6 +50,9 @@ struct UploadTweetTopBar: View {
     }
 }
 
-#Preview {
-    UploadTweetTopBar(tweetText: "")
+#Preview(traits: .modifier(MainAuthVMPreview())) {
+    UploadTweetTopBar(
+        uploadThreadVM: UploadThreadViewModel(),
+        tweetText: ""
+    )
 }

@@ -59,6 +59,7 @@ final class MainAuthViewModel {
             
             let mainUser = try await networkManager.validateToken(token: token)
             self.mainUser = mainUser
+            self.jwtToken = token
             self.isLoggedIn = true
         }
         

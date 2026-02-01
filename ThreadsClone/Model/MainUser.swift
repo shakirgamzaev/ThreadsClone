@@ -13,4 +13,5 @@ struct MainUser: Codable {
     var email: String
     var imageURL: String?
     var fullName: String
+    var bio: String
 }

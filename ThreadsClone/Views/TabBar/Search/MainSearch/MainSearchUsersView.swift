@@ -9,13 +9,14 @@ import SwiftUI
 
 struct MainSearchUsersView: View {
     @State private var searchUsersVM = SearchUsersViewModel()
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
         ScrollView {
             LazyVStack {
-                ForEach(0..<50) { _ in
+                ForEach(searchUsersVM.listOfAllUsers) { searchedUser in
                     VStack {
-                        UserCellSearchView()
+                        UserCellSearchView(searchedUser: searchedUser)
                         Divider()
                     }
                 }
@@ -26,10 +27,20 @@ struct MainSearchUsersView: View {
         .navigationTitle(Text("Search"))
         .searchable(text: $searchUsersVM.userName, placement: .navigationBarDrawer, prompt: "Search User")
         .scrollIndicators(.hidden)
+        .onChange(of: searchUsersVM.userName, { oldValue, newValue in
+            Task {
+                await searchUsersVM.fetchUsers(by: newValue, jwtToken: mainAuthVM.jwtToken)
+            }
+        })
+        .task {
+            Task {
+                await searchUsersVM.fetchAllUsers(jwtToken: mainAuthVM.jwtToken)
+            }
+        }
     }
 }
 
-#Preview {
+#Preview(traits: . modifier(MainAuthVMPreview())) {
     NavigationStack {
         MainSearchUsersView()
     }

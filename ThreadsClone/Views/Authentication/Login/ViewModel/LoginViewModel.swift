@@ -23,6 +23,7 @@ class LoginViewModel {
             let authResponse = try await NetworkingManager.shared.login(email: email, password: password)
             try authVM.keyChainService.saveToken(token: authResponse.jwtToken)
             authVM.jwtToken = authResponse.jwtToken
+            authVM.mainUser = authResponse.user
             
             withAnimation(.smooth(duration: 0.2)) {
                 authVM.isLoggedIn = true

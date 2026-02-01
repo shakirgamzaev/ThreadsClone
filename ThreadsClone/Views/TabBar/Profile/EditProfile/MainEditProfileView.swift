@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MainEditProfileView: View {
     @State private var editprofileVM = EditProfileVM()
-   
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
+    
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -17,6 +18,7 @@ struct MainEditProfileView: View {
                 
                 Spacer()
                 
+                //The actual form that has all of the user profile details.
                 VStack {
                     EditProfile_EditSection(width: geo.size.width)
                         .padding()
@@ -29,6 +31,9 @@ struct MainEditProfileView: View {
             .frame(maxHeight: .infinity)
             .background(Color(uiColor: .systemGray6))
             .environment(editprofileVM)
+        }
+        .onAppear {
+            editprofileVM.configure(with: mainAuthVM.mainUser ?? mainUserPreviewModel)
         }
         
         

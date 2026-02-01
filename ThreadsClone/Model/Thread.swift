@@ -9,14 +9,10 @@ import Foundation
 import SwiftUI
 
 struct Thread: Identifiable, Codable {
-    private var imageURL: String? = nil
-    var image: Data? = nil
+    var imageURL: String?
     var userName: String
     var content: String
     var postDate: Date
-    var userId: Int64
-    
-    var id: String {
-       return self.userName
-    }
+    var userId: Int64 //id of the user who actually created this thread
+    var id: Int64?
 }

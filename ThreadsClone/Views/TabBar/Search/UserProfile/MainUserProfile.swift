@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserProfile: View {
+struct MainUserProfile: View {
     @State private var isFollowing = false
     @Namespace private var anim
     @State private var selectedFilter: ProfileThreadFilter = .threads
@@ -29,10 +29,11 @@ struct UserProfile: View {
                     .padding(.horizontal)
                     .safeAreaPadding(.top, 15)
                     
+                    //
                     ScrollView {
                         LazyVStack {
                             ForEach(0..<50) { _ in
-                                MainFeedCellView(containerWidth: size.width)
+                                MainFeedCellView(containerWidth: size.width, thread: PreviewThread)
                             }
                         }
                     }
@@ -44,5 +45,5 @@ struct UserProfile: View {
 }
 
 #Preview {
-    UserProfile()
+    MainUserProfile()
 }

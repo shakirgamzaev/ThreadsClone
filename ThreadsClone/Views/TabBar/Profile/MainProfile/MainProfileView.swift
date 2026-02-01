@@ -10,6 +10,7 @@ import SwiftUI
 struct MainProfileView: View {
     @State private var presentEditPRofile = false
     
+    
     var body: some View {
         Button {
             presentEditPRofile = true

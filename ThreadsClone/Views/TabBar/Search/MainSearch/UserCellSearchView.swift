@@ -9,11 +9,12 @@ import SwiftUI
 
 struct UserCellSearchView: View {
     @State private var containerWidth: CGFloat = 0
+    let searchedUser: SearchedUser
     
     var body: some View {
         HStack {
             NavigationLink {
-                UserProfile()
+                MainUserProfile()
             } label: {
                 HStack {
                     UserImageView(
@@ -23,9 +24,9 @@ struct UserCellSearchView: View {
                     )
                     
                     VStack(alignment: .leading) {
-                        Text("maxverstappen1")
+                        Text(searchedUser.userName)
                             .bold()
-                        Text("Max Verstappen")
+                        Text(searchedUser.fullName)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -63,5 +64,5 @@ struct UserCellSearchView: View {
 }
 
 #Preview {
-    UserCellSearchView()
+    UserCellSearchView(searchedUser: searchedUserPreviewModel)
 }

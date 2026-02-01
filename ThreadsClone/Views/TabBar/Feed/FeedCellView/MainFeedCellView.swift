@@ -9,14 +9,18 @@ import SwiftUI
 
 struct MainFeedCellView: View {
     let containerWidth: CGFloat
+    let thread: Thread
     
     var body: some View {
         VStack {
             HStack(alignment: .top) {
-                ImageAndUserThread(containerWidth: containerWidth)
+                ImageAndUserThread(
+                    containerWidth: containerWidth,
+                    thread: thread
+                )
                 
                 HStack {
-                    Text("10m")
+                    Text(postDate)
                         .foregroundStyle(.secondary)
                     Image(systemName: "ellipsis")
                 }
@@ -28,6 +32,14 @@ struct MainFeedCellView: View {
     }
 }
 
+extension MainFeedCellView {
+    var postDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: thread.postDate)
+    }
+}
+
 #Preview {
-    MainFeedCellView(containerWidth: 404)
+    MainFeedCellView(containerWidth: 404, thread: PreviewThread)
 }

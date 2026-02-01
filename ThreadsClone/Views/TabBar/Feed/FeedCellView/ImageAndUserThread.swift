@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ImageAndUserThread: View {
     let containerWidth: CGFloat
+    let thread: Thread
     
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -19,9 +20,9 @@ struct ImageAndUserThread: View {
             )
             
             VStack(alignment: .leading, spacing: 6) {
-                Text("max_verstappen")
+                Text(thread.userName)
                     .bold()
-                Text("Monaco GP is an amazing GP and i am so grateful to you guys. It is just ")
+                Text(thread.content)
                 FeedCellButtons()
             }
         }
@@ -30,5 +31,5 @@ struct ImageAndUserThread: View {
 }
 
 #Preview {
-    ImageAndUserThread(containerWidth: 404)
+    ImageAndUserThread(containerWidth: 404, thread: PreviewThread)
 }

@@ -13,6 +13,10 @@ import SwiftUI
 final class EditProfileVM {
     var name: String = ""
     var bio: String = ""
-    var link: String = ""
     var isPrivateProfile: Bool = false
+    
+    func configure(with mainUser: MainUser) {
+        self.name = mainUser.fullName
+        self.bio = mainUser.bio
+    }
 }

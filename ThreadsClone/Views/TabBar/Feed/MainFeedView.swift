@@ -26,8 +26,8 @@ struct MainFeedView: View {
             else {
                 ScrollView {
                     LazyVStack {
-                        ForEach(mainFeedVM.threads) { _ in
-                            MainFeedCellView(containerWidth: containerWidth)
+                        ForEach(mainFeedVM.threads) { thread in
+                            MainFeedCellView(containerWidth: containerWidth, thread: thread)
                         }
                     }
                 }

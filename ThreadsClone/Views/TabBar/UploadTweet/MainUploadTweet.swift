@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct MainUploadTweet: View {
-    @State private var tweetText = ""
+    @State private var uploadTweetVM = UploadThreadViewModel()
     @State private var width = CGFloat.zero
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
         VStack {
-            UploadTweetTopBar(tweetText: tweetText)
+            UploadTweetTopBar(
+                uploadThreadVM: uploadTweetVM,
+                tweetText: uploadTweetVM.threadContent
+            )
                 .padding(.top, 10)
             
             HStack(alignment: .top) {
@@ -21,13 +25,17 @@ struct MainUploadTweet: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("maxverstappen1")
                         .bold()
-                    TextField("", text: $tweetText, prompt: Text("Start a thread..."))
+                    TextField(
+                        "",
+                        text: $uploadTweetVM.threadContent,
+                        prompt: Text("Start a thread...")
+                    )
                 }
                 Spacer()
                 
-                if !tweetText.isEmpty {
+                if !uploadTweetVM.threadContent.isEmpty {
                     Button {
-                        tweetText = ""
+                        uploadTweetVM.threadContent = ""
                     } label: {
                         Image(systemName: "xmark")
                             .fontWeight(.semibold)
@@ -47,10 +55,9 @@ struct MainUploadTweet: View {
             width = newValue
         }
         
-
     }
 }
 
-#Preview {
+#Preview(traits: .modifier(MainAuthVMPreview())){
     MainUploadTweet()
 }

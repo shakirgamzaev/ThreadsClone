@@ -36,13 +36,6 @@ struct EditProfile_EditSection: View {
             
             Divider()
             
-            VStack(alignment: .leading) {
-                Text("Bio")
-                    .bold()
-                TextField("Bio", text: $editProfileVM.link, prompt: Text("Add link"))
-            }
-            
-            Divider()
             
             HStack {
                 Text("Private profile")
@@ -66,7 +59,9 @@ struct EditProfile_EditSection: View {
 }
 
 #Preview {
-    EditProfile_EditSection(width: 404)
+    EditProfile_EditSection(
+        width: 404
+    )
         .environment(EditProfileVM())
         .environment(MainAuthViewModel())
         .padding()

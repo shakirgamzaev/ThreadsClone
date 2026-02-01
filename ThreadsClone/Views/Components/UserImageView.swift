@@ -26,8 +26,10 @@ struct UserImageView: View {
                         
                 }
                 else {
-                    Circle()
-                        .frame(width: 50, height: 50)
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: widthContainer * percentOfContainerWidth, height: widthContainer * percentOfContainerWidth)
                 }
             case .assetCatalog(let imageName):
                 Image(imageName)

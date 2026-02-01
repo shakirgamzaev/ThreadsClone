@@ -14,14 +14,16 @@ import Foundation
 final class MainFeedViewModel {
     private let networkManager = NetworkingManager.shared
     var threads: [Thread] = []
-    var isFetchingThreads = false
+    var isFetchingThreads = true
     
     func fetchThreads(jwtToken: String) async {
+        print("trying to fetch threads")
         isFetchingThreads = true
         defer{ isFetchingThreads = false }
         
         do {
             self.threads = try await networkManager.fetchThreads(jwtToken: jwtToken)
+            print("finished fetching threads")
         }
         
         catch let error {
