@@ -10,7 +10,6 @@ import SwiftUI
 struct EditProfile_EditSection: View {
     @Environment(EditProfileVM.self) private var editProfileViewModel
     let width: CGFloat
-    
     @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
@@ -20,7 +19,7 @@ struct EditProfile_EditSection: View {
                 VStack(alignment: .leading) {
                     Text("Name")
                         .bold()
-                    TextField("name", text: $editProfileVM.name, prompt: Text("Enter your name"))
+                    TextField("name", text: $editProfileVM.fullName, prompt: Text("Enter your name"))
                 }
                 
                 UserImageView(dataSource: .assetCatalog("userImg"), widthContainer: width, percentOfContainerWidth: 0.11)

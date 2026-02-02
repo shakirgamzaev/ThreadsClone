@@ -9,11 +9,12 @@ import SwiftUI
 
 struct EditProfileTopBar: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(EditProfileVM.self) private var editProfileVM
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
         HStack {
             Button {
-                //Cancel
                 dismiss()
             } label: {
                 Text("Cancel")
@@ -26,12 +27,18 @@ struct EditProfileTopBar: View {
                 
             
             Button {
-                //Done updaitng profile info
+                //Update the profile and call backend to update
+                Task {
+                    await editProfileVM.updateProfile(mainAuthVM: mainAuthVM)
+                    dismiss()
+                }
             } label: {
                 Text("Done")
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             .fontWeight(.semibold)
+            .opacity(editProfileVM.isUpdating ? 0.4 : 1)
+            .disabled(editProfileVM.isUpdating)
 
         }
         .foregroundStyle(.loginBtn)

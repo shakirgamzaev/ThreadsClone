@@ -37,6 +37,7 @@ struct MainUserProfile: View {
                             }
                         }
                     }
+                    .scrollIndicators(.hidden)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

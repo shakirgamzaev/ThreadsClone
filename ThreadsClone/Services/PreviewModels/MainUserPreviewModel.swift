@@ -20,5 +20,6 @@ var searchedUserPreviewModel = SearchedUser(
     userName: "maxverstappen_1",
     fullName: "Max Verstappen",
     bio: "I am a formulas 1 race driver",
-    numberOfFollowers: 10
+    numberOfFollowers: 10,
+    isFollowed: false
 )

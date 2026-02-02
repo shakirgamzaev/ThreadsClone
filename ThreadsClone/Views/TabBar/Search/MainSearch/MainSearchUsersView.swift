@@ -16,7 +16,10 @@ struct MainSearchUsersView: View {
             LazyVStack {
                 ForEach(searchUsersVM.listOfAllUsers) { searchedUser in
                     VStack {
-                        UserCellSearchView(searchedUser: searchedUser)
+                        UserCellSearchView(
+                            searchedUser: searchedUser,
+                            mainSearchUsersVM: searchUsersVM
+                        )
                         Divider()
                     }
                 }

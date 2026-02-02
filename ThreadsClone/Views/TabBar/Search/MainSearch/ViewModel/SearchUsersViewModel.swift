@@ -32,4 +32,24 @@ final class SearchUsersViewModel {
             print(error.localizedDescription)
         }
     }
+    
+    func toggleFollowStatus(searchedUser: SearchedUser, mainUser: MainUser) async {
+        if let index = listOfAllUsers.firstIndex(where: {$0.id == searchedUser.id}) {
+            // toggle the isFollowed status so that UI can immediately update
+            listOfAllUsers[index].isFollowed.toggle()
+            
+            if listOfAllUsers[index].isFollowed {
+                listOfAllUsers[index].numberOfFollowers += 1
+            } else {
+                listOfAllUsers[index].numberOfFollowers -= 1
+            }
+            
+            do {
+                
+            }
+            catch {
+                
+            }
+        }
+    }
 }

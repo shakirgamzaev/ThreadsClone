@@ -161,4 +161,26 @@ extension NetworkingManager {
         return true
     }
     
+    
+    
+    func updateProfile(jwtToken: String, bio: String) async throws {
+        var request = prepareURLRequest(
+            for: "api/allUsers/updateProfile",
+            jwtToken: jwtToken,
+            httpMethod: "POST"
+        )
+        request.setValue("text/plain; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = bio.data(using: .utf8)!
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        let httpResponse = response as! HTTPURLResponse
+        
+        guard httpResponse.statusCode == 200 else {
+            print(httpResponse.statusCode)
+            let apiError = try decoder.decode(ApiError.self, from: data)
+            throw apiError
+        }
+        
+    }
+    
 }

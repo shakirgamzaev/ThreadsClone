@@ -23,6 +23,7 @@ final class UploadThreadViewModel {
                 userId: mainUser.id
             )
             let _ = try await networkManager.postThread(jwtToken: jwtToken, thread: newThread)
+            print("Thread uploaded successfully")
         }
         catch {
             if let apieError = error as? ApiError {

@@ -15,9 +15,10 @@ struct SearchedUser: Codable, Identifiable {
     var fullName: String
     var bio: String
     var numberOfFollowers: Int
+    var isFollowed: Bool
     
     enum CodingKeys: String, CodingKey {
-        case id, userName, imageURL, fullName, bio
+        case id, userName, imageURL, fullName, bio, isFollowed
         case numberOfFollowers = "followersCount"
     }
 }
