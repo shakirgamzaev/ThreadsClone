@@ -11,15 +11,19 @@ struct MainUserProfile: View {
     @State private var isFollowing = false
     @Namespace private var anim
     @State private var selectedFilter: ProfileThreadFilter = .threads
+    let searchedUser: SearchedUser
     
     var body: some View {
         GeometryReader { geo in
             let size = geo.size
             ZStack {
                 VStack(spacing: 15) {
-                    UserProfileTopHeader(containerWidth: size.width)
+                    UserProfileTopHeader(
+                        containerWidth: size.width,
+                        searchedUser: searchedUser
+                    )
                     
-                    FollowButton(isFollowing: $isFollowing)
+                    FollowButton(searchedUser: searchedUser)
                         .padding(.horizontal)
 
                     UserProfileOptions(
@@ -32,7 +36,7 @@ struct MainUserProfile: View {
                     //
                     ScrollView {
                         LazyVStack {
-                            ForEach(0..<50) { _ in
+                            ForEach(0..<10) { _ in
                                 MainFeedCellView(containerWidth: size.width, thread: PreviewThread)
                             }
                         }
@@ -45,6 +49,7 @@ struct MainUserProfile: View {
     }
 }
 
-#Preview {
-    MainUserProfile()
+#Preview(traits: .modifier(MainAuthVMPreview())) {
+    MainUserProfile(searchedUser: searchedUserPreviewModel)
+        .environment(SearchUsersViewModel())
 }

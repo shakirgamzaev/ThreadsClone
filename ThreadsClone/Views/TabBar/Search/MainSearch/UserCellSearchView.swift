@@ -10,13 +10,14 @@ import SwiftUI
 struct UserCellSearchView: View {
     @State private var containerWidth: CGFloat = 0
     let searchedUser: SearchedUser
-    let mainSearchUsersVM: SearchUsersViewModel
+    @Environment(SearchUsersViewModel.self) private var searchUsersVM
     @Environment(MainAuthViewModel.self) private var mainAuthVM
     
     var body: some View {
         HStack {
             NavigationLink {
-                MainUserProfile()
+                MainUserProfile(searchedUser: searchedUser)
+                    .environment(searchUsersVM)
             } label: {
                 HStack {
                     UserImageView(
@@ -41,9 +42,10 @@ struct UserCellSearchView: View {
             Button {
                 //Toggle follow and unfollow
                 Task {
-                    await mainSearchUsersVM.toggleFollowStatus(
+                    await searchUsersVM.toggleFollowStatus(
                         searchedUser: searchedUser,
-                        mainUser: mainAuthVM.mainUser ?? mainUserPreviewModel
+                        mainUser: mainAuthVM.mainUser ?? mainUserPreviewModel,
+                        jwtToken: mainAuthVM.jwtToken
                     )
                 }
             } label: {
@@ -73,6 +75,6 @@ struct UserCellSearchView: View {
 
 
 
-#Preview {
-    UserCellSearchView(searchedUser: searchedUserPreviewModel, mainSearchUsersVM: SearchUsersViewModel())
+#Preview(traits: .modifier(MainAuthVMPreview())) {
+    UserCellSearchView(searchedUser: searchedUserPreviewModel)
 }

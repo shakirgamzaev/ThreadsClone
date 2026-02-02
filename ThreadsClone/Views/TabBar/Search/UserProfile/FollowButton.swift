@@ -8,18 +8,27 @@
 import SwiftUI
 
 struct FollowButton: View {
-    @Binding var isFollowing: Bool
+    let searchedUser: SearchedUser
+    @Environment(SearchUsersViewModel.self) private var searchUsersVM
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
+    
     var body: some View {
         Button {
             //Follow/unfollow
-            isFollowing.toggle()
+            Task {
+                await searchUsersVM.toggleFollowStatus(
+                    searchedUser: searchedUser,
+                    mainUser: mainAuthVM.mainUser ?? mainUserPreviewModel,
+                    jwtToken: mainAuthVM.jwtToken
+                )
+            }
         } label: {
-            Text(isFollowing ? "Following" : "Follow")
+            Text(searchedUser.isFollowed ? "Following" : "Follow")
                 .padding()
                 .frame(maxWidth: .infinity)
-                .foregroundStyle(isFollowing ? .primary : Color(uiColor: .systemBackground))
+                .foregroundStyle(searchedUser.isFollowed ? .primary : Color(uiColor: .systemBackground))
                 .background {
-                    if !isFollowing {
+                    if !searchedUser.isFollowed {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundStyle(.loginBtn)
                     }
@@ -33,6 +42,7 @@ struct FollowButton: View {
     }
 }
 
-#Preview {
-    FollowButton(isFollowing: .constant(false))
+#Preview(traits: .modifier(MainAuthVMPreview())) {
+    FollowButton(searchedUser: searchedUserPreviewModel)
+        .environment(SearchUsersViewModel())
 }

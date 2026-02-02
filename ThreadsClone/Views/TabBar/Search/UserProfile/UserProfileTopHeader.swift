@@ -9,23 +9,22 @@ import SwiftUI
 
 struct UserProfileTopHeader: View {
     let containerWidth: CGFloat
+    let searchedUser: SearchedUser
     
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 15) {
                 VStack(alignment: .leading) {
-                    Text("Charles Leclerc")
+                    Text(searchedUser.fullName)
                         .font(.title2)
                         .bold()
-                    Text("charles_leclerc")
+                    Text(searchedUser.userName)
                 }
                 
-                Text("Formula 1 driver for Scuderia Ferrari")
-                
-                Text("2 Followers")
+                Text(searchedUser.bio)
+                Text("\(searchedUser.numberOfFollowers) followers")
                     .foregroundStyle(.secondary)
                 
-
             }
             
             Spacer()
@@ -43,7 +42,10 @@ struct UserProfileTopHeader: View {
 #Preview {
     @Previewable @State var width: CGFloat = 0
     
-    UserProfileTopHeader(containerWidth: 404)
+    UserProfileTopHeader(
+        containerWidth: 404,
+        searchedUser: searchedUserPreviewModel
+    )
         .frame(maxWidth: .infinity)
         .onGeometryChange(for: CGFloat.self) { geo in
             geo.size.width

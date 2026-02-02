@@ -17,14 +17,14 @@ struct MainSearchUsersView: View {
                 ForEach(searchUsersVM.listOfAllUsers) { searchedUser in
                     VStack {
                         UserCellSearchView(
-                            searchedUser: searchedUser,
-                            mainSearchUsersVM: searchUsersVM
+                            searchedUser: searchedUser
                         )
                         Divider()
                     }
                 }
             }
         }
+        .environment(searchUsersVM)
         .contentMargins(.top, 10)
         .contentMargins(.horizontal, 14)
         .navigationTitle(Text("Search"))

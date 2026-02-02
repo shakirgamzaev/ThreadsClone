@@ -183,4 +183,17 @@ extension NetworkingManager {
         
     }
     
+    
+    func toggleFollowStatus(userId: Int64, jwtToken: String, shouldFollow: Bool) async throws {
+        var request = prepareURLRequest(for: "api/allUsers/follow/\(userId)/\(shouldFollow)", jwtToken: jwtToken, httpMethod: "POST")
+        let (data, response) = try await URLSession.shared.data(for: request)
+        let httpResponse = response as! HTTPURLResponse
+        
+        guard httpResponse.statusCode == 200 else {
+            print(httpResponse.statusCode)
+            let apiError = try decoder.decode(ApiError.self, from: data)
+            throw apiError
+        }
+    }
+    
 }
