@@ -23,7 +23,7 @@ struct MainFeedView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.thickMaterial)
             }
-            else {
+            else if mainFeedVM.errorMessage == nil {
                 ScrollView {
                     LazyVStack {
                         ForEach(mainFeedVM.threads) { thread in
@@ -49,6 +49,10 @@ struct MainFeedView: View {
                 }, action: { newValue in
                     containerWidth = newValue
                 })
+            }
+            else {
+                Text(mainFeedVM.errorMessage!)
+                    .foregroundStyle(.red)
             }
         }
         .task {

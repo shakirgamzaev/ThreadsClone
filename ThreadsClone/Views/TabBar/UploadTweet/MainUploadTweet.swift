@@ -23,7 +23,7 @@ struct MainUploadTweet: View {
             HStack(alignment: .top) {
                 UserImageView(dataSource: .assetCatalog("userImg"), widthContainer: width, percentOfContainerWidth: 0.10)
                 VStack(alignment: .leading, spacing: 3) {
-                    Text("maxverstappen1")
+                    Text(mainAuthVM.mainUser?.userName ?? "Anonymous")
                         .bold()
                     TextField(
                         "",

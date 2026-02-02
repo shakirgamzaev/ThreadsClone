@@ -13,11 +13,13 @@ import Foundation
 final class NetworkingManager {
 
     static let shared = NetworkingManager()
-    private let encoder = JSONEncoder()
+    private var encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     private let serverAddress = "http://localhost:8080"
     
-    private init(){}
+    private init(){
+        encoder.dateEncodingStrategy = .iso8601
+    }
     
     func login(email: String, password: String) async throws -> AuthResponse {
         let url = URL(string: "\(serverAddress)/api/auth/login")!
@@ -109,12 +111,12 @@ extension NetworkingManager {
     func fetchAllUsers(jwtToken: String, filter: String? = nil) async throws -> [SearchedUser] {
         var urlString = ""
         if let filter {
-            urlString = "/api/allUsers?userName=\(filter)"
+            urlString = "api/allUsers?userName=\(filter)"
         }
         else {
-            urlString = "/api/allUsers"
+            urlString = "api/allUsers"
         }
-        var request = prepareURLRequest(for: urlString, jwtToken: jwtToken, httpMethod: "GET")
+        let request = prepareURLRequest(for: urlString, jwtToken: jwtToken, httpMethod: "GET")
         let (data, response) = try await URLSession.shared.data(for: request)
         let httpResponse = response as! HTTPURLResponse
         
@@ -130,11 +132,12 @@ extension NetworkingManager {
     
     ///fetch all threads from
     func fetchThreads(jwtToken: String) async throws -> [Thread] {
-        var request = prepareURLRequest(for: "/api/threads", jwtToken: jwtToken, httpMethod: "GET")
+        let request = prepareURLRequest(for: "api/threads", jwtToken: jwtToken, httpMethod: "GET")
         let (data, response) = try await URLSession.shared.data(for: request)
         let httpResponse = response as! HTTPURLResponse
         
         guard httpResponse.statusCode == 200 else {
+            print(httpResponse.statusCode)
             let apiError = try decoder.decode(ApiError.self, from: data)
             throw apiError
         }
@@ -144,13 +147,14 @@ extension NetworkingManager {
     }
     
     func postThread(jwtToken: String, thread: Thread) async throws -> Bool {
-        var request = prepareURLRequest(for: "/api/threads", jwtToken: jwtToken, httpMethod: "POST")
+        var request = prepareURLRequest(for: "api/threads", jwtToken: jwtToken, httpMethod: "POST")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try encoder.encode(thread)
         let (data, response) = try await URLSession.shared.data(for: request)
         let httpResponse = response as! HTTPURLResponse
         
         guard httpResponse.statusCode == 200 else {
+            print(httpResponse.statusCode)
             let apiError = try decoder.decode(ApiError.self, from: data)
             throw apiError
         }

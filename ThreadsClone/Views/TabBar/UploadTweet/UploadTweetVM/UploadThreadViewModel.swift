@@ -22,7 +22,7 @@ final class UploadThreadViewModel {
                 postDate: Date.now,
                 userId: mainUser.id
             )
-            let result = try await networkManager.postThread(jwtToken: jwtToken, thread: newThread)
+            let _ = try await networkManager.postThread(jwtToken: jwtToken, thread: newThread)
         }
         catch {
             if let apieError = error as? ApiError {

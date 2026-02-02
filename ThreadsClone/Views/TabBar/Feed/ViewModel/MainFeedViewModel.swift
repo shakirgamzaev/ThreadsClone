@@ -15,6 +15,7 @@ final class MainFeedViewModel {
     private let networkManager = NetworkingManager.shared
     var threads: [Thread] = []
     var isFetchingThreads = true
+    var errorMessage: String?
     
     func fetchThreads(jwtToken: String) async {
         print("trying to fetch threads")
@@ -29,9 +30,11 @@ final class MainFeedViewModel {
         catch let error {
             if let apiError = error as? ApiError {
                 print("Error fetching threads: \(apiError)")
+                self.errorMessage = errorMessage
             }
             else {
                 print(error.localizedDescription)
+                self.errorMessage = error.localizedDescription
             }
         }
     }

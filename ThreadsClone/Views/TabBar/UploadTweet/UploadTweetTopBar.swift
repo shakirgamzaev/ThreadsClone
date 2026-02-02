@@ -37,6 +37,7 @@ struct UploadTweetTopBar: View {
                         jwtToken: mainAuthVM.jwtToken,
                         mainUser: mainAuthVM.mainUser ?? mainUserPreviewModel
                     )
+                    dismiss()
                 }
             } label: {
                 Text("Post")
