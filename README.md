@@ -3,6 +3,10 @@
 A modern iOS application that clones the core functionality of Threads, built with SwiftUI and following Apple's latest design patterns. If you want to check the backend that powers this IOS app
 please visit the following github link: https://github.com/shakirgamzaev/ThreadsBackend_SpringBoot.git
 
+
+https://github.com/user-attachments/assets/57eb1dc1-c48b-45e7-811c-4a9f1763b871
+
+
 ## Features
 
 ### Authentication
