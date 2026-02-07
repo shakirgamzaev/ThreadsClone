@@ -7,7 +7,7 @@
 
 import Foundation
 
-///view model class that holds a list of current threads belonging to a particular user.
+///view model class that holds a list of threads made by users that this user follows
 ///
 ///Talks to a network manager to fetch threads from the backend and display them to the user.
 @Observable

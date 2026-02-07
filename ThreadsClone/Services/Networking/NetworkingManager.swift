@@ -19,6 +19,7 @@ final class NetworkingManager {
     
     private init(){
         encoder.dateEncodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .iso8601
     }
     
     func login(email: String, password: String) async throws -> AuthResponse {
@@ -98,7 +99,7 @@ extension NetworkingManager {
         httpMethod: String
     ) -> URLRequest {
         
-        var url = URL(string: "\(serverAddress)/\(endpoint)")!
+        let url = URL(string: "\(serverAddress)/\(endpoint)")!
         var request = URLRequest(url: url)
         request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = httpMethod
@@ -145,6 +146,21 @@ extension NetworkingManager {
         let threads = try decoder.decode([Thread].self, from: data)
         return threads
     }
+    
+    func fetchThreadsMadeByUser(withUserId userId: Int64, jwtToken: String) async throws -> [Thread]{
+        let request = prepareURLRequest(for: "api/threads/\(userId)", jwtToken: jwtToken, httpMethod: "GET")
+        let (data, response) = try await URLSession.shared.data(for: request)
+        let httpResponse = response as! HTTPURLResponse
+        
+        guard httpResponse.statusCode == 200 else {
+            print(httpResponse.statusCode)
+            let apiError = try decoder.decode(ApiError.self, from: data)
+            throw apiError
+        }
+        let threads = try decoder.decode([Thread].self, from: data)
+        return threads
+    }
+    
     
     func postThread(jwtToken: String, thread: Thread) async throws -> Bool {
         var request = prepareURLRequest(for: "api/threads", jwtToken: jwtToken, httpMethod: "POST")

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct MainUserProfile: View {
-    @State private var isFollowing = false
     @Namespace private var anim
     @State private var selectedFilter: ProfileThreadFilter = .threads
     let searchedUser: SearchedUser
+    @State private var userProfileVM = UserProfileViewModel()
+    @Environment(MainAuthViewModel.self) private var mainAuthVM
+    
     
     var body: some View {
         GeometryReader { geo in
@@ -34,17 +36,40 @@ struct MainUserProfile: View {
                     .safeAreaPadding(.top, 15)
                     
                     //
-                    ScrollView {
-                        LazyVStack {
-                            ForEach(0..<10) { _ in
-                                MainFeedCellView(containerWidth: size.width, thread: PreviewThread)
+                    ZStack {
+                        if (selectedFilter == .threads) {
+                            UserProfileListOfThreadsView(
+                                containerWidth: size.width,
+                                thread: PreviewThread
+                            )
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .leading),
+                                removal: .move(edge: .leading)
+                            ))
+                        }
+                        
+                        //List of replies
+                        else {
+                            ScrollView {
+                                Rectangle()
+                                    .fill(.gray.opacity(0.3))
+                                    .frame(height: 700)
                             }
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .trailing),
+                                removal: .slide
+                            ))
+                            
                         }
                     }
-                    .scrollIndicators(.hidden)
                 }
+                .animation(.smooth(duration: 0.3), value: selectedFilter)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .task {
+                await userProfileVM.fetchThreadsOfThisUser(userId: searchedUser.id, jwtToken: mainAuthVM.jwtToken)
+            }
+            .environment(userProfileVM)
         }
     }
 }
